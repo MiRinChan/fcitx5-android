@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - '*'
+      - "*"
     tags:
-      - '![0-9]+.*'
+      - "![0-9]+.*"
     paths:
-      - '**/**'
-      - '!*.md'
-      - '!.gitignore'
+      - "**/**"
+      - "!*.md"
+      - "!.gitignore"
 
 jobs:
   build_commit:
@@ -71,9 +71,9 @@ jobs:
       #    C:/msys64/usr/bin/pacman -S --noconfirm mingw-w64-ucrt-x86_64-gettext mingw-w64-ucrt-x86_64-extra-cmake-modules
       #    Add-Content $env:GITHUB_PATH "C:/msys64/ucrt64/bin"
 
-    #   - name: Prepare personal build sources
-    #     run: |
-    #       ./prepare_personal_build.sh
+      #   - name: Prepare personal build sources
+      #     run: |
+      #       ./prepare_personal_build.sh
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
@@ -82,7 +82,7 @@ jobs:
         run: |
           ./gradlew :app:assembleRelease
           ./gradlew :assembleReleasePlugins
-      
+
       # move plugin apks to app/build/outputs/apk/release
       - name: Move plugin APKs
         shell: bash
@@ -94,29 +94,29 @@ jobs:
               mv "plugin/${i}/build/outputs/apk/release"/*.apk "app/build/outputs/apk/release/"
             fi
           done
-        
-      - name: Sign all App
-        uses: kevin-david/zipalign-sign-android-release@v1.1.1
-        id: sign_apk
-        with:
-          releaseDirectory: app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          alias: ${{ secrets.KEY_ALIAS }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-          zipAlign: true
-        env:
-          BUILD_TOOLS_VERSION: "31.0.0"
+
+      #   - name: Sign all App
+      #     uses: kevin-david/zipalign-sign-android-release@v1.1.1
+      #     id: sign_apk
+      #     with:
+      #       releaseDirectory: app/build/outputs/apk/release
+      #       signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+      #       keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+      #       alias: ${{ secrets.KEY_ALIAS }}
+      #       keyPassword: ${{ secrets.KEY_PASSWORD }}
+      #       zipAlign: true
+      #     env:
+      #       BUILD_TOOLS_VERSION: "31.0.0"
 
       - name: Delete unsigned APKs
         shell: bash
         run: |
-          rm app/build/outputs/apk/release/*unsigned.apk
+          # rm app/build/outputs/apk/release/*unsigned.apk
           pushd app/build/outputs/apk/release
-          for file in *unsigned-*; do
-            new_name="${file/unsigned-/}"
-            mv -- "$file" "$new_name"
-          done
+          # for file in *unsigned-*; do
+          #   new_name="${file/unsigned-/}"
+          #   mv -- "$file" "$new_name"
+          # done
           popd
 
       - name: Upload app with plugins
@@ -127,7 +127,7 @@ jobs:
 
       # create nightly release
       - name: Create Nightly release
-        uses: 'marvinpinto/action-automatic-releases@latest'
+        uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: latest
