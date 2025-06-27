@@ -298,6 +298,7 @@ sealed class Theme : Parcelable {
             onPrimary: Int,
             secondaryContainer: Int,
             onSurfaceVariant: Int,
+            inverseSurface: Int,
         ) : this(
             name = "Monet" + if (isDark) "Dark" else "Light",
             isDark = isDark,
@@ -310,7 +311,7 @@ sealed class Theme : Parcelable {
             candidateLabelColor = onSurface,
             candidateCommentColor = onSurfaceVariant,
             altKeyBackgroundColor = secondaryContainer,
-            altKeyTextColor = onSurfaceVariant,
+            altKeyTextColor = inverseSurface,
             accentKeyBackgroundColor = primary,
             accentKeyTextColor = onPrimary,
             keyPressHighlightColor = onSurface.alpha(if (isDark) 0.2f else 0.12f),
