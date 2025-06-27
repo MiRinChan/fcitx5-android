@@ -311,7 +311,7 @@ sealed class Theme : Parcelable {
             candidateLabelColor = onSurface,
             candidateCommentColor = onSurfaceVariant,
             altKeyBackgroundColor = secondaryContainer,
-            altKeyTextColor = inverseSurface,
+            altKeyTextColor = onPrimary,
             accentKeyBackgroundColor = primary,
             accentKeyTextColor = onPrimary,
             keyPressHighlightColor = onSurface.alpha(if (isDark) 0.2f else 0.12f),
